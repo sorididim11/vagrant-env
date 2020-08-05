@@ -1,0 +1,32 @@
+---
+- hosts: all
+  gather_facts: True
+  tasks:
+    - name: ensure firewalld is stoped and disabled
+      service:
+        name: firewalld
+        enabled: no
+        state: stopped
+
+    - name: install xorg packages for X11
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - xorg-x11-xauth
+        - xterm
+
+      # echo "X11DisplayOffset 10\nX11UseLocalhost no" >> /etc/ssh/sshd_config
+    - name: enable sshd X11 forwarding
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^{{item.key}}"
+        line: "{{item.key}} {{item.value}}"
+      with_dict:
+        X11DisplayOffset: "10"
+        X11UseLocalhost: "no"
+
+    - name: restart sshd
+      systemd:
+        name: sshd
+        state: restarted

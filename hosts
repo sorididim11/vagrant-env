@@ -1,0 +1,19 @@
+slave-01 ansible_host=10.0.35.31 ip=10.0.35.31
+util-01 ansible_host=10.0.35.41 ip=10.0.35.41
+[kube-master]
+
+[etcd]
+
+[kube-node]
+slave-01
+
+[util-node]
+util-01
+
+[k8s-cluster:children]
+kube-master
+kube-node
+[all:vars]
+http_proxy=
+https_proxy=
+install_dnsmasq=true

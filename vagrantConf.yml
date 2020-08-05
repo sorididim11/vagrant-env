@@ -1,0 +1,15 @@
+---
+s1:
+   name: slave-01
+   ip: 10.0.35.31
+   cpus: 2
+   mem: 2000
+   type: kube-node
+
+u1:
+   name: util-01
+   ip: 10.0.35.41
+   cpus: 2
+   mem: 2000
+   type: util-node
+   ansible_host: true
